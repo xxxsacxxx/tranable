@@ -1,15 +1,3 @@
-# Render Blueprint — deploys the whole Tranable demo (Postgres + FastAPI backend + Next.js
-# frontend) from one repo. In the Render dashboard: New -> Blueprint -> select this repo.
-#
-# Notes:
-# - The free Postgres plan expires 30 days after creation (then a 14-day grace period) —
-#   fine for a demo; recreate the blueprint or upgrade the plan for anything longer-lived.
-# - Free web services spin down after 15 minutes of inactivity and take ~1 minute to wake
-#   on the next request — the first click after idle time will be slow, that's expected.
-# - NEXT_PUBLIC_API_URL below assumes the backend service name stays "tranable-backend"
-#   (Render's default public URL is https://<service-name>.onrender.com). If you rename
-#   the service, update this value to match.
-
 databases:
   - name: tranable-db
     plan: free
@@ -23,7 +11,7 @@ services:
     plan: free
     rootDir: backend
     buildCommand: pip install -r requirements.txt
-    startCommand: "python -m app.create_tables && python seed/seed_data.py && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    startCommand: bash start.sh
     envVars:
       - key: DATABASE_URL
         fromDatabase:
